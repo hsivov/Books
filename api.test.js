@@ -69,9 +69,31 @@ describe('Books API', () => {
         const bookId = 1;
 
         chai.request(server)
-            .del(`/books/${bookId}`)
+            .delete(`/books/${bookId}`)
             .end((err, res) => {
                 expect(res).to.have.status(204);
+                done();
+            });
+    });
+
+    it('should return 404 when trying to GET, PUT or DELETE a non-existing book', (done) => {
+        chai.request(server)
+            .get('/books/9999')
+            .end((err, res) => {
+                expect(res).to.have.status(404);
+            });
+
+        chai.request(server)
+            .put('/books/9999')
+            .send({ id: "9999", title: "Non-existing Book", author: "Non-existing Author"})
+            .end((err, res) => {
+                expect(res).to.have.status(404);
+            });
+
+        chai.request(server)
+            .delete('/books/9999')
+            .end((err, res) => {
+                expect(res).to.have.status(404);
                 done();
             });
     });
