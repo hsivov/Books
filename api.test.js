@@ -50,7 +50,7 @@ describe('Books API', () => {
 
     it('should PUT an existing book', (done) => {
         const bookId = 1;
-        const updatedBook = { id: bookId, title: "Test Book", author: "Test Author" };
+        const updatedBook = { id: "1", title: "Test Book", author: "Test Author" };
 
         chai.request(server)
             .put(`/books/${bookId}`)
@@ -61,6 +61,17 @@ describe('Books API', () => {
                 expect(res.body).to.have.property('id');
                 expect(res.body).to.have.property('title');
                 expect(res.body).to.have.property('author');
+                done();
+            });
+    });
+
+    it('should DELETE a book', (done) => {
+        const bookId = 1;
+
+        chai.request(server)
+            .del(`/books/${bookId}`)
+            .end((err, res) => {
+                expect(res).to.have.status(204);
                 done();
             });
     });
