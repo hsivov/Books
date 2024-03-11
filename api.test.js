@@ -33,11 +33,28 @@ describe('Books API', () => {
             });
     });
 
-    it('should GET a single books', (done) => {
+    it('should GET a single book', (done) => {
         const bookId = 1;
 
         chai.request(server)
             .get(`/books/${bookId}`)
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.a('object');
+                expect(res.body).to.have.property('id');
+                expect(res.body).to.have.property('title');
+                expect(res.body).to.have.property('author');
+                done();
+            });
+    });
+
+    it('should PUT an existing book', (done) => {
+        const bookId = 1;
+        const updatedBook = { id: bookId, title: "Test Book", author: "Test Author" };
+
+        chai.request(server)
+            .put(`/books/${bookId}`)
+            .send(updatedBook)
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.a('object');
