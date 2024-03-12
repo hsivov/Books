@@ -26,4 +26,4 @@ jobs:
       run: npm install
       
     - name: Run tests
-      run: npx mocha api.test.js
+      run: npx mocha api.test.js --exit
